@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>성적 계산기</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        label, input {
+            display: block;
+            margin: 10px 0;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>성적 계산기</h1>
+
+        <h2>졸업예정자 / 졸업자 선택</h2>
+        <select id="status">
+            <option value="graduating">졸업예정자</option>
+            <option value="graduated">졸업자</option>
+        </select>
+
+        <h2>국어, 영어, 수학 성적 입력</h2>
+        <label for="kor1">2학년 1학기 성적 (국+영+수):</label>
+        <input type="number" id="kor1" placeholder="점수 입력">
+
+        <label for="kor2">2학년 2학기 성적 (국+영+수):</label>
+        <input type="number" id="kor2" placeholder="점수 입력">
+
+        <label for="kor3">3학년 1학기 성적 (국+영+수):</label>
+        <input type="number" id="kor3" placeholder="점수 입력">
+
+        <label for="kor4">3학년 2학기 성적 (국+영+수 - 졸업자만 해당):</label>
+        <input type="number" id="kor4" placeholder="졸업자만 입력">
+
+        <h2>사회, 과학 성적 입력</h2>
+        <label for="soc1">2학년 1학기 성적 (사회+과학):</label>
+        <input type="number" id="soc1" placeholder="점수 입력">
+
+        <label for="soc2">2학년 2학기 성적 (사회+과학):</label>
+        <input type="number" id="soc2" placeholder="점수 입력">
+
+        <label for="soc3">3학년 1학기 성적 (사회+과학):</label>
+        <input type="number" id="soc3" placeholder="점수 입력">
+
+        <label for="soc4">3학년 2학기 성적 (사회+과학 - 졸업자만 해당):</label>
+        <input type="number" id="soc4" placeholder="졸업자만 입력">
+
+        <h2>체육 성적 입력</h2>
+        <label for="phy1">2학년 1학기 성적 (체육):</label>
+        <input type="number" id="phy1" placeholder="점수 입력">
+
+        <label for="phy2">2학년 2학기 성적 (체육):</label>
+        <input type="number" id="phy2" placeholder="점수 입력">
+
+        <label for="phy3">3학년 1학기 성적 (체육):</label>
+        <input type="number" id="phy3" placeholder="점수 입력">
+
+        <label for="phy3">3학년 2학기 성적 (체육):</label>
+        <input type="number" id="phy4" placeholder="점수 입력">
+
+        <button onclick="calculateScores()">계산</button>
+
+        <h3>결과</h3>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        function calculateScores() {
+            // 국어, 영어, 수학 입력 값 받기
+            let kor1 = parseFloat(document.getElementById("kor1").value) || 0;
+            let kor2 = parseFloat(document.getElementById("kor2").value) || 0;
+            let kor3 = parseFloat(document.getElementById("kor3").value) || 0;
+            let kor4 = parseFloat(document.getElementById("kor4").value) || 0;
+            let status = document.getElementById("status").value;
+
+            // 사회/과학 입력 값 받기
+            let soc1 = parseFloat(document.getElementById("soc1").value) || 0;
+            let soc2 = parseFloat(document.getElementById("soc2").value) || 0;
+            let soc3 = parseFloat(document.getElementById("soc3").value) || 0;
+            let soc4 = parseFloat(document.getElementById("soc4").value) || 0;
+
+            // 체육 입력 값 받기
+            let phy1 = parseFloat(document.getElementById("phy1").value) || 0;
+            let phy2 = parseFloat(document.getElementById("phy2").value) || 0;
+            let phy3 = parseFloat(document.getElementById("phy3").value) || 0;
+				 let phy4 = parseFloat(document.getElementById("phy4").value) || 0;
+
+            let korResult, socResult, phyResult;
+
+            // 국어, 영어, 수학 환산점 계산
+            if (status === "graduating") {
+                // 졸업예정자 계산 (국어, 영어, 수학)
+                korResult = ((kor1 + kor2 + kor3) / 3) * 10;
+            } else {
+                // 졸업자 계산 (국어, 영어, 수학)
+                korResult = ((kor1 + kor2 + kor3 + kor4) / 4) * 10;
+            }
+
+            // 사회/과학 환산점 계산
+            if (status === "graduating") {
+                // 졸업예정자 계산 (사회/과학)
+                socResult = ((soc1 + soc2 + soc3) / 3) * 8;
+            } else {
+                // 졸업자 계산 (사회/과학)
+                socResult = ((soc1 + soc2 + soc3 + soc4) / 4) * 8;
+            }
+
+            // 체육 환산점 계산
+				if (status === "graduating") {
+                // 졸업예정자 계산 (사회/과학)
+                	phyResult = (phy1 + phy2 + phy3) * 2;
+            } else {
+                // 졸업자 계산 (사회/과학)
+                	phyResult = (phy1 + phy2 + phy3 + phy4) * 2;
+            }
+
+            phyResult = (phy1 + phy2 + phy3) * 2;
+
+            // 결과 표시
+            document.getElementById("result").innerText = 
+                "국어, 영어, 수학 환산점: " + korResult.toFixed(2) + "\n" +
+                "사회/과학 환산점: " + socResult.toFixed(2) + "\n" +
+                "체육 환산점: " + phyResult.toFixed(2);
+        }
+    </script>
+</body>
+</html>
